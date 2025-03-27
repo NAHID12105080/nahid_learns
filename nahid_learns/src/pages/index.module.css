@@ -12,6 +12,12 @@
   color: #1c1e21;
 }
 
+/* Add dark mode styles for hero banner */
+[data-theme="dark"] .heroBanner {
+  background: linear-gradient(to right, #121212, #1a1a1a);
+  color: #ffffff;
+}
+
 .heroImage {
   display: flex;
   justify-content: center;
@@ -57,6 +63,11 @@
   background-color: #ffffff;
 }
 
+/* Add dark mode styles for feature cards */
+[data-theme="dark"] .features {
+  background-color: #171717;
+}
+
 .featureCard {
   height: 100%;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
@@ -65,6 +76,12 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+
+/* Add dark mode styles for feature cards */
+[data-theme="dark"] .featureCard {
+  background-color: #242424;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
 }
 
 .featureCard:hover {
@@ -81,6 +98,11 @@
 .whySection {
   padding: 4rem 0;
   background-color: #f8f9fa;
+}
+
+/* Add dark mode styles for why section */
+[data-theme="dark"] .whySection {
+  background-color: #171717;
 }
 
 .whyCards {
@@ -104,13 +126,34 @@
   align-items: flex-start;
 }
 
+/* Add dark mode styles for why cards */
+[data-theme="dark"] .whyCard {
+  background-color: #242424;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid #333;
+}
+
 .whyIcon {
   font-size: 2rem;
   margin-right: 1rem;
 }
 
+/* Enhance icon visibility in dark mode */
+[data-theme="dark"] .whyIcon {
+  color: var(--ifm-color-primary-light);
+}
+
 .whyText {
   flex: 1;
+}
+
+/* Improve text contrast in dark mode */
+[data-theme="dark"] .whyText h3 {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .whyText p {
+  color: #cccccc;
 }
 
 .whyText p {
@@ -125,6 +168,11 @@
   background-color: #ffffff;
 }
 
+/* Add dark mode styles for updates section */
+[data-theme="dark"] .recentUpdates {
+  background-color: #121212;
+}
+
 .updateCard {
   background-color: #f8f9fa;
   padding: 1.5rem 2rem;
@@ -133,14 +181,48 @@
   border-left: 4px solid #3578e5;
 }
 
+/* Add dark mode styles for update cards */
+[data-theme="dark"] .updateCard {
+  background-color: #242424;
+  border-left: 4px solid var(--ifm-color-primary);
+}
+
 .updateDate {
   font-size: 0.85rem;
   color: #666;
   margin-bottom: 0.5rem;
 }
 
+/* Improve date contrast in dark mode */
+[data-theme="dark"] .updateDate {
+  color: #aaaaaa;
+}
+
 .updateCard h3 {
   margin-top: 0;
   margin-bottom: 0.5rem;
   font-size: 1.3rem;
+}
+
+/* Ensure heading visibility in dark mode */
+[data-theme="dark"] .updateCard h3 {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .updateCard p {
+  color: #cccccc;
+}
+
+/* Fix feature cards in dark mode */
+[data-theme="dark"] .features {
+  background-color: #171717;
+}
+
+[data-theme="dark"] .featureCard {
+  background-color: #242424;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .featureCard:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }

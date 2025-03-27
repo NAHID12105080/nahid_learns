@@ -25,12 +25,12 @@ function HomepageHeader() {
               >
                 Start Learning
               </Link>
-              <Link
+              {/* <Link
                 className="button button--outline button--lg button--secondary"
                 to="/docs/intro"
               >
                 Documentation
-              </Link>
+              </Link> */}
             </div>
           </div>
           <div className="col col--6">
@@ -121,98 +121,6 @@ function Feature({ title, description, link, icon }: FeatureItem) {
   );
 }
 
-function WhySection() {
-  return (
-    <section className={styles.whySection}>
-      <div className="container">
-        <div className="row">
-          <div className="col col--8 col--offset-2">
-            <Heading as="h2" className="text--center margin-bottom--lg">
-              Why Learn With Us?
-            </Heading>
-            <div className={styles.whyCards}>
-              <div className={styles.whyCard}>
-                <div className={styles.whyIcon}>📚</div>
-                <div className={styles.whyText}>
-                  <strong>Comprehensive Content</strong>
-                  <p>From fundamentals to advanced concepts, we cover it all</p>
-                </div>
-              </div>
-              <div className={styles.whyCard}>
-                <div className={styles.whyIcon}>💡</div>
-                <div className={styles.whyText}>
-                  <strong>Practical Examples</strong>
-                  <p>Learn by doing with real-world examples and projects</p>
-                </div>
-              </div>
-              <div className={styles.whyCard}>
-                <div className={styles.whyIcon}>🚀</div>
-                <div className={styles.whyText}>
-                  <strong>Modern Technologies</strong>
-                  <p>Stay updated with the latest tools and frameworks</p>
-                </div>
-              </div>
-              <div className={styles.whyCard}>
-                <div className={styles.whyIcon}>🔍</div>
-                <div className={styles.whyText}>
-                  <strong>Clear Explanations</strong>
-                  <p>Complex topics broken down into digestible concepts</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function RecentUpdates() {
-  return (
-    <section className={styles.recentUpdates}>
-      <div className="container">
-        <div className="row">
-          <div className="col col--10 col--offset-1">
-            <Heading as="h2" className="text--center margin-bottom--lg">
-              Recent Updates
-            </Heading>
-            <div className={styles.updateCard}>
-              <div className={styles.updateDate}>June 15, 2023</div>
-              <Heading as="h3">New React.js Content Added</Heading>
-              <p>
-                We've expanded our React.js documentation with comprehensive
-                guides on hooks, state management, performance optimization,
-                testing, and security.
-              </p>
-              <Link to="/docs/web-development/reactjs/hooks">
-                Check out the new content →
-              </Link>
-            </div>
-            <div className={styles.updateCard}>
-              <div className={styles.updateDate}>June 10, 2023</div>
-              <Heading as="h3">AI & Machine Learning Section Launched</Heading>
-              <p>
-                Explore our new AI and Machine Learning section with
-                comprehensive guides on algorithms, neural networks, and
-                practical applications.
-              </p>
-              <Link to="/docs/ai/intro">Start learning AI →</Link>
-            </div>
-            <div className="text--center margin-top--lg">
-              <Link
-                className="button button--outline button--secondary"
-                to="/blog"
-              >
-                View All Updates
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export default function Home(): ReactNode {
   const { siteConfig } = useDocusaurusContext();
   return (
@@ -234,8 +142,6 @@ export default function Home(): ReactNode {
             </div>
           </div>
         </section>
-        <WhySection />
-        <RecentUpdates />
       </main>
     </Layout>
   );

@@ -64,7 +64,7 @@ const config: Config = {
     // Replace with your project's social card
     image: "img/nahid-learns-social-card.jpg",
     navbar: {
-      title: "Nahid Learns",
+      title: "NahidLearns",
       logo: {
         alt: "Nahid Learns Logo",
         src: "img/logo.svg",
@@ -94,12 +94,7 @@ const config: Config = {
           position: "left",
           label: "App Development",
         },
-        {
-          type: "docSidebar",
-          sidebarId: "tutorialSidebar",
-          position: "left",
-          label: "Tutorial",
-        },
+
         { to: "/blog", label: "Blog", position: "left" },
         {
           href: "https://github.com/nahid/nahid-learns",
@@ -129,10 +124,6 @@ const config: Config = {
             {
               label: "App Development",
               to: "/docs/app-development/intro",
-            },
-            {
-              label: "Tutorial",
-              to: "/docs/intro",
             },
           ],
         },
@@ -167,7 +158,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Nahid Learns. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Nahid Learns.`,
     },
     prism: {
       theme: prismThemes.github,

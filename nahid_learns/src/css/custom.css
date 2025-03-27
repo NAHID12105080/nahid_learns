@@ -1,30 +1,91 @@
-/**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
- */
+/* ... existing code ... */
 
-/* You can override the default Infima variables here. */
-:root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+/* Dark mode color adjustments for better contrast */
+[data-theme="dark"] {
+  /* Primary colors */
+  --ifm-color-primary: #a47dff;
+  --ifm-color-primary-dark: #8e5dff;
+  --ifm-color-primary-darker: #834cff;
+  --ifm-color-primary-darkest: #6119ff;
+  --ifm-color-primary-light: #ba9dff;
+  --ifm-color-primary-lighter: #c5aeff;
+  --ifm-color-primary-lightest: #eae3ff;
+
+  /* Base colors - fix dark mode to use dark backgrounds */
+  --ifm-background-color: #121212;
+  --ifm-background-surface-color: #1e1e1e;
+
+  /* Text colors - ensuring high contrast with light text on dark backgrounds */
+  --ifm-font-color-base: #e6e6e6;
+  --ifm-heading-color: #ffffff;
+
+  /* Card and container backgrounds */
+  --card-background: #242424;
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+/* Fix button visibility in dark mode */
+[data-theme="dark"] .button--secondary {
+  color: #e6e6e6; /* Much lighter text color for contrast */
+  background-color: transparent;
+  border-color: #666666;
 }
+
+[data-theme="dark"] .button--secondary:hover {
+  background-color: rgba(122, 87, 205, 0.15);
+  color: #ffffff;
+  border-color: var(--ifm-color-primary);
+}
+
+/* Fix primary button in dark mode */
+[data-theme="dark"] .button--primary {
+  background-color: var(--ifm-color-primary);
+  color: #121212; /* Dark text on light background for contrast */
+}
+
+[data-theme="dark"] .button--primary:hover {
+  background-color: var(--ifm-color-primary-light);
+}
+
+/* Footer improvements for dark mode */
+[data-theme="dark"] .footer {
+  background-color: #171717;
+  /* color: #cccccc; */
+}
+
+[data-theme="dark"] .footer__link-item {
+  color: #cccccc;
+}
+
+[data-theme="dark"] .footer__copyright {
+  color: #999999;
+}
+
+/* Navbar improvements */
+[data-theme="dark"] .navbar {
+  background-color: #171717;
+}
+
+[data-theme="dark"] .navbar__link {
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .navbar__link:hover,
+[data-theme="dark"] .navbar__link--active {
+  color: var(--ifm-color-primary-lightest);
+}
+
+/* Table of contents */
+[data-theme="dark"] .table-of-contents {
+  border-left-color: #333333;
+}
+
+[data-theme="dark"] .table-of-contents__link {
+  color: #cccccc;
+}
+
+[data-theme="dark"] .table-of-contents__link:hover,
+[data-theme="dark"] .table-of-contents__link--active {
+  color: var(--ifm-color-primary-lightest);
+}
+
+/* ... existing code ... */
