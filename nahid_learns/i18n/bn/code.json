@@ -1,0 +1,8 @@
+{
+  "theme.ErrorPageContent.title": "এই পেজটি ক্রাশ করেছে।",
+  "theme.NotFound.title": "পেজ পাওয়া যায়নি",
+  "theme.NotFound.p1": "আমরা আপনার খুঁজছেন পেজটি খুঁজে পাইনি।",
+  "theme.NotFound.p2": "দয়া করে সাইটের মালিকের সাথে যোগাযোগ করুন যা আপনাকে এই URL এ আনল এবং তাদের লিঙ্কটি ভাঙ্গা আছে জানান।",
+  "theme.navbar.mobileSidebarSecondaryMenu.closeButtonAriaLabel": "মেনু বন্ধ করুন",
+  "theme.SearchPage.documentsFound.plurals": "{count} ডকুমেন্ট পাওয়া গেছে"
+}

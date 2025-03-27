@@ -1,0 +1,8 @@
+{
+  "theme.ErrorPageContent.title": "यह पेज क्रैश हो गया है।",
+  "theme.NotFound.title": "पेज नहीं मिला",
+  "theme.NotFound.p1": "हमें आप जिस पेज की तलाश कर रहे हैं वह नहीं मिला।",
+  "theme.NotFound.p2": "कृपया साइट के मालिक से संपर्क करें जिसने आपको इस URL पर लाया और उन्हें बताएं कि उनका लिंक टूटा हुआ है।",
+  "theme.navbar.mobileSidebarSecondaryMenu.closeButtonAriaLabel": "मेनू बंद करें",
+  "theme.SearchPage.documentsFound.plurals": "{count} दस्तावेज़ मिले"
+}

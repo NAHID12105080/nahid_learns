@@ -50,7 +50,13 @@ const sidebars: SidebarsConfig = {
         type: "doc",
         id: "ai/intro",
       },
-      items: [],
+      items: [
+        {
+          type: "category",
+          label: "Generative AI",
+          items: ["ai/genai/intro"],
+        },
+      ],
     },
   ],
 

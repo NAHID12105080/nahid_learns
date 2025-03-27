@@ -28,7 +28,23 @@ const config: Config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: "en",
-    locales: ["en"],
+    locales: ["en", "bn", "hi"],
+    localeConfigs: {
+      en: {
+        htmlLang: "en-US",
+        label: "English",
+      },
+      bn: {
+        htmlLang: "bn-BD",
+        label: "বাংলা", // Bangla
+        direction: "ltr",
+      },
+      hi: {
+        htmlLang: "hi-IN",
+        label: "हिन्दी", // Hindi
+        direction: "ltr",
+      },
+    },
   },
 
   presets: [
@@ -99,6 +115,10 @@ const config: Config = {
         {
           href: "https://github.com/nahid/nahid-learns",
           label: "GitHub",
+          position: "right",
+        },
+        {
+          type: "localeDropdown",
           position: "right",
         },
       ],
