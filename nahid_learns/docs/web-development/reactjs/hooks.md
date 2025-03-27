@@ -10,7 +10,21 @@ Hooks are functions that let you "hook into" React state and lifecycle features 
 
 ### useState
 
-The `useState` hook lets you add React state to functional components:
+The `useState` hook lets you add React state to functional components.
+
+#### Syntax
+
+```jsx
+const [state, setState] = useState(initialState);
+```
+
+#### Key Features
+
+- Returns a stateful value and a function to update it
+- The update function can accept a new state value or a function that returns the new state
+- State updates trigger re-renders
+
+#### Example
 
 ```jsx
 import { useState } from "react";
@@ -29,7 +43,21 @@ function Counter() {
 
 ### useEffect
 
-The `useEffect` hook lets you perform side effects in functional components:
+The `useEffect` hook lets you perform side effects in functional components.
+
+#### Syntax
+
+```jsx
+useEffect(setup, dependencies?);
+```
+
+#### Key Features
+
+- Runs after render and when dependencies change
+- Can return a cleanup function
+- Controls when effects run with the dependency array
+
+#### Example
 
 ```jsx
 import { useState, useEffect } from "react";
@@ -40,12 +68,19 @@ function DataFetcher() {
 
   useEffect(() => {
     // This runs after render and when dependencies change
-    fetch("https://api.example.com/data")
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
+    const fetchData = async () => {
+      try {
+        const response = await fetch("https://api.example.com/data");
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchData();
 
     // Optional cleanup function
     return () => {
@@ -60,7 +95,21 @@ function DataFetcher() {
 
 ### useContext
 
-The `useContext` hook lets you subscribe to React context without introducing nesting:
+The `useContext` hook lets you subscribe to React context without introducing nesting.
+
+#### Syntax
+
+```jsx
+const value = useContext(SomeContext);
+```
+
+#### Key Features
+
+- Accepts a context object created by `createContext`
+- Returns the current context value
+- Updates when the provider value changes
+
+#### Example
 
 ```jsx
 import { createContext, useContext, useState } from "react";
@@ -102,7 +151,21 @@ function ThemedButton() {
 
 ### useReducer
 
-For complex state logic, `useReducer` is often preferable to `useState`:
+For complex state logic, `useReducer` is often preferable to `useState`.
+
+#### Syntax
+
+```jsx
+const [state, dispatch] = useReducer(reducer, initialState);
+```
+
+#### Key Features
+
+- Alternative to useState for complex state logic
+- Based on the reducer pattern from Redux
+- State transitions are predictable with actions
+
+#### Example
 
 ```jsx
 import { useReducer } from "react";
@@ -115,7 +178,7 @@ function counterReducer(state, action) {
     case "decrement":
       return { count: state.count - 1 };
     default:
-      throw new Error();
+      throw new Error("Unknown action");
   }
 }
 
@@ -134,10 +197,30 @@ function Counter() {
 
 ### useCallback
 
-The `useCallback` hook returns a memoized callback function:
+The `useCallback` hook returns a memoized callback function.
+
+#### Syntax
 
 ```jsx
-import { useState, useCallback } from "react";
+const memoizedCallback = useCallback(callback, dependencies);
+```
+
+#### Key Features
+
+- Memoizes a callback function to avoid unnecessary recreation
+- Only changes when dependencies change
+- Helps optimize child component rendering
+
+#### Example
+
+```jsx
+import { useState, useCallback, memo } from "react";
+
+// Memoized child component
+const ChildComponent = memo(function ChildComponent({ onClick }) {
+  console.log("Child rendered");
+  return <button onClick={onClick}>Increment</button>;
+});
 
 function ParentComponent() {
   const [count, setCount] = useState(0);
@@ -154,16 +237,25 @@ function ParentComponent() {
     </div>
   );
 }
-
-function ChildComponent({ onClick }) {
-  console.log("Child rendered");
-  return <button onClick={onClick}>Increment</button>;
-}
 ```
 
 ### useMemo
 
-The `useMemo` hook returns a memoized value:
+The `useMemo` hook returns a memoized value.
+
+#### Syntax
+
+```jsx
+const memoizedValue = useMemo(calculateValue, dependencies);
+```
+
+#### Key Features
+
+- Memoizes a computed value to avoid expensive recalculations
+- Only recomputes when dependencies change
+- Helps optimize performance for expensive calculations
+
+#### Example
 
 ```jsx
 import { useState, useMemo } from "react";
@@ -196,7 +288,22 @@ function ExpensiveCalculation({ list }) {
 
 ## Custom Hooks
 
-You can create your own hooks to extract component logic into reusable functions:
+Custom hooks let you extract component logic into reusable functions.
+
+### Creating Custom Hooks
+
+#### Naming Convention
+
+- Must start with "use" (e.g., `useFetch`, `useLocalStorage`)
+- Follows the same rules as other hooks
+
+#### Benefits
+
+- Reuse stateful logic between components
+- Keep components clean and focused
+- Test business logic separately from UI
+
+#### Example: useFetch
 
 ```jsx
 import { useState, useEffect } from "react";
@@ -252,12 +359,116 @@ function UserProfile({ userId }) {
 }
 ```
 
+### Example: useLocalStorage
+
+```jsx
+import { useState, useEffect } from "react";
+
+function useLocalStorage(key, initialValue) {
+  // Get from local storage then
+  // parse stored json or return initialValue
+  const [storedValue, setStoredValue] = useState(() => {
+    if (typeof window === "undefined") {
+      return initialValue;
+    }
+
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      console.log(error);
+      return initialValue;
+    }
+  });
+
+  // Return a wrapped version of useState's setter function that
+  // persists the new value to localStorage
+  const setValue = (value) => {
+    try {
+      // Allow value to be a function so we have same API as useState
+      const valueToStore =
+        value instanceof Function ? value(storedValue) : value;
+
+      // Save state
+      setStoredValue(valueToStore);
+
+      // Save to local storage
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return [storedValue, setValue];
+}
+```
+
 ## Rules of Hooks
 
-To ensure hooks work correctly:
+### Essential Rules
 
-1. Only call hooks at the top level of your component or custom hooks
-2. Don't call hooks inside loops, conditions, or nested functions
-3. Only call hooks from React functional components or custom hooks
+1. **Only call hooks at the top level** - Don't call hooks inside loops, conditions, or nested functions
+2. **Only call hooks from React functions** - Call them from React functional components or custom hooks
+3. **Custom hooks must start with "use"** - This naming convention is important for the React linter
 
-Understanding and effectively using hooks is essential for modern React development.
+### Common Mistakes
+
+```jsx
+// ❌ Wrong: Hook inside a condition
+function Component() {
+  const [count, setCount] = useState(0);
+
+  if (count > 0) {
+    // This breaks the rules of hooks
+    useEffect(() => {
+      document.title = `Count: ${count}`;
+    });
+  }
+
+  return <button onClick={() => setCount(count + 1)}>Increment</button>;
+}
+
+// ✅ Correct: Condition inside the hook
+function Component() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (count > 0) {
+      document.title = `Count: ${count}`;
+    }
+  }, [count]);
+
+  return <button onClick={() => setCount(count + 1)}>Increment</button>;
+}
+```
+
+## Debugging Hooks
+
+### Using the React DevTools
+
+- Install the React DevTools browser extension
+- Inspect component props and state
+- Trace re-renders and their causes
+
+### Common Hook Debugging Techniques
+
+1. `console.log` the state and dependencies
+2. Use the React DevTools Profiler to measure performance
+3. Use ESLint with `eslint-plugin-react-hooks` to catch hook rule violations
+
+```jsx
+function DebuggingExample() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    console.log("Effect running with count:", count);
+    return () => console.log("Cleaning up effect for count:", count);
+  }, [count]);
+
+  console.log("Rendering with count:", count);
+
+  return <button onClick={() => setCount(count + 1)}>Count: {count}</button>;
+}
+```

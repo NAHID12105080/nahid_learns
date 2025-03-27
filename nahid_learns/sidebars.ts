@@ -13,6 +13,60 @@ import type { SidebarsConfig } from "@docusaurus/plugin-content-docs";
  Create as many sidebars as you want.
  */
 const sidebars: SidebarsConfig = {
+  // Problem Solving Sidebar
+  problemSolvingSidebar: [
+    {
+      type: "category",
+      label: "Problem Solving",
+      link: {
+        type: "doc",
+        id: "problem-solving/intro",
+      },
+      items: [
+        {
+          type: "category",
+          label: "Competitive Programming Concepts",
+          link: {
+            type: "doc",
+            id: "problem-solving/cp-concepts/intro",
+          },
+          items: [
+            "problem-solving/cp-concepts/time-complexity",
+            "problem-solving/cp-concepts/data-structures",
+            "problem-solving/cp-concepts/algorithms",
+            "problem-solving/cp-concepts/dynamic-programming",
+          ],
+        },
+      ],
+    },
+  ],
+
+  // AI & Machine Learning Sidebar
+  aiSidebar: [
+    {
+      type: "category",
+      label: "AI & Machine Learning",
+      link: {
+        type: "doc",
+        id: "ai/intro",
+      },
+      items: [],
+    },
+  ],
+
+  // App Development Sidebar
+  appDevSidebar: [
+    {
+      type: "category",
+      label: "App Development",
+      link: {
+        type: "doc",
+        id: "app-development/intro",
+      },
+      items: [],
+    },
+  ],
+
   // Web Development Sidebar
   webDevSidebar: [
     {

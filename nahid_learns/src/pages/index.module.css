@@ -4,33 +4,143 @@
  */
 
 .heroBanner {
-  padding: 4rem 0;
-  text-align: center;
+  padding: 6rem 0;
+  text-align: left;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(to right, #f8f9fa, #f0f1f2);
+  color: #1c1e21;
+}
+
+.heroImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 2rem;
+    padding: 3rem 0;
+    text-align: center;
+  }
+
+  .heroImage {
+    margin-top: 2rem;
   }
 }
 
 .buttons {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+  .buttons {
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .buttons a {
+    margin-right: 0 !important;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
 }
 
 .features {
   display: flex;
   align-items: center;
-  padding: 2rem 0;
+  padding: 4rem 0;
   width: 100%;
+  background-color: #ffffff;
+}
+
+.featureCard {
+  height: 100%;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.featureCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.featureIcon {
+  font-size: 2rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.whySection {
+  padding: 4rem 0;
+  background-color: #f8f9fa;
+}
+
+.whyCards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+  .whyCards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.whyCard {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: flex-start;
+}
+
+.whyIcon {
+  font-size: 2rem;
+  margin-right: 1rem;
+}
+
+.whyText {
+  flex: 1;
+}
+
+.whyText p {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.9rem;
+  color: #666;
 }
 
 .recentUpdates {
-  padding: 2rem 0 4rem;
+  padding: 4rem 0;
   width: 100%;
+  background-color: #ffffff;
+}
+
+.updateCard {
+  background-color: #f8f9fa;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid #3578e5;
+}
+
+.updateDate {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.updateCard h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
 }

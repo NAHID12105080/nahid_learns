@@ -10,7 +10,17 @@ Effective testing ensures your React applications work as expected and helps pre
 
 ### Unit Tests
 
-Unit tests verify that individual components or functions work correctly in isolation:
+Unit tests verify that individual components or functions work correctly in isolation.
+
+#### What to Test
+
+- Component rendering
+- User interactions
+- State changes
+- Event handlers
+- Utility functions
+
+#### Example
 
 ```jsx
 // Button.js
@@ -35,9 +45,26 @@ test("calls onClick when clicked", () => {
 });
 ```
 
+#### Benefits
+
+- Fast to run
+- Focused scope
+- Easier to debug
+- Provides high confidence in component behavior
+
 ### Integration Tests
 
-Integration tests verify that multiple components work together correctly:
+Integration tests verify that multiple components work together correctly.
+
+#### What to Test
+
+- Component interactions
+- Data flow between components
+- Form submissions
+- API responses handling
+- Route transitions
+
+#### Example
 
 ```jsx
 // Form.js
@@ -78,9 +105,25 @@ test("submits the form with user input", () => {
 });
 ```
 
+#### Benefits
+
+- Tests component relationships
+- Identifies interface issues
+- More realistic user scenarios
+- Provides confidence in feature functionality
+
 ### End-to-End Tests
 
-E2E tests verify that entire user flows work correctly by simulating user behavior:
+E2E tests verify that entire user flows work correctly by simulating user behavior.
+
+#### What to Test
+
+- User journeys (login, signup, checkout, etc.)
+- Navigation flows
+- Data persistence across pages
+- Browser interactions
+
+#### Example with Cypress
 
 ```javascript
 // Using Cypress
@@ -96,36 +139,77 @@ describe("Authentication Flow", () => {
 });
 ```
 
+#### Benefits
+
+- Tests entire application workflows
+- Closest to real user experience
+- Captures browser-specific issues
+- Validates production-ready features
+
 ## Testing Libraries and Tools
 
 ### Jest
 
-Jest is a JavaScript testing framework commonly used with React:
+Jest is a JavaScript testing framework commonly used with React.
+
+#### Installation
 
 ```bash
 npm install --save-dev jest
 ```
 
-Jest provides:
+#### Key Features
 
 - Test runner
 - Assertion library
 - Mocking utilities
 - Code coverage reports
+- Snapshot testing
+
+#### Configuration
+
+```javascript
+// jest.config.js
+module.exports = {
+  testEnvironment: "jsdom",
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+  moduleNameMapper: {
+    "\\.(css|less|scss)$": "identity-obj-proxy",
+    "^@/(.*)$": "<rootDir>/src/$1",
+  },
+  collectCoverageFrom: [
+    "src/**/*.{js,jsx,ts,tsx}",
+    "!src/**/*.d.ts",
+    "!src/index.{js,jsx,ts,tsx}",
+  ],
+  coverageThreshold: {
+    global: {
+      statements: 80,
+      branches: 80,
+      functions: 80,
+      lines: 80,
+    },
+  },
+};
+```
 
 ### React Testing Library
 
-React Testing Library encourages testing components as users would interact with them:
+React Testing Library encourages testing components as users would interact with them.
+
+#### Installation
 
 ```bash
 npm install --save-dev @testing-library/react @testing-library/jest-dom
 ```
 
-Key concepts:
+#### Key Concepts
 
 - Queries (getBy, findBy, queryBy)
 - User events
 - Assertions on accessibility and visibility
+
+#### Example
 
 ```jsx
 import { render, screen, fireEvent } from "@testing-library/react";
@@ -143,9 +227,24 @@ test("counter increments when button is clicked", () => {
 });
 ```
 
+#### Best Practices
+
+- Test behavior, not implementation
+- Use accessible queries (getByRole, getByLabelText)
+- Focus on user perspective
+- Test realistic user interactions
+
 ### Testing Hooks
 
-Test custom hooks with `@testing-library/react-hooks`:
+Test custom hooks with `@testing-library/react-hooks`.
+
+#### Installation
+
+```bash
+npm install --save-dev @testing-library/react-hooks
+```
+
+#### Example
 
 ```jsx
 // useCounter.js
@@ -173,9 +272,40 @@ test("should increment counter", () => {
 });
 ```
 
+#### Testing Complex Hooks
+
+```jsx
+// useDataFetching.test.js
+test("should fetch and update data", async () => {
+  // Mock the fetch function
+  global.fetch = jest.fn().mockResolvedValue({
+    ok: true,
+    json: async () => ({ data: "test data" }),
+  });
+
+  const { result, waitForNextUpdate } = renderHook(() =>
+    useDataFetching("https://example.com/api")
+  );
+
+  // Initial state
+  expect(result.current.loading).toBe(true);
+  expect(result.current.data).toBe(null);
+
+  // Wait for the fetch to complete
+  await waitForNextUpdate();
+
+  // Updated state
+  expect(result.current.loading).toBe(false);
+  expect(result.current.data).toEqual({ data: "test data" });
+  expect(global.fetch).toHaveBeenCalledWith("https://example.com/api");
+});
+```
+
 ### Testing Context Providers
 
 When testing components that use context:
+
+#### Setup
 
 ```jsx
 // ThemeContext.js
@@ -203,9 +333,41 @@ test("uses theme from context", () => {
 });
 ```
 
+#### Testing Context Consumers
+
+```jsx
+// Create a custom render function
+function renderWithThemeContext(ui, { theme = "light", ...options } = {}) {
+  const setTheme = jest.fn();
+
+  return {
+    ...render(
+      <ThemeContext.Provider value={{ theme, setTheme }}>
+        {ui}
+      </ThemeContext.Provider>,
+      options
+    ),
+    setTheme,
+  };
+}
+
+// Use the custom render
+test("theme toggle button changes theme", () => {
+  const { getByRole, setTheme } = renderWithThemeContext(<ThemeToggle />);
+
+  fireEvent.click(getByRole("button", { name: /toggle theme/i }));
+
+  expect(setTheme).toHaveBeenCalledWith("dark");
+});
+```
+
 ## Mocking
 
 ### Mocking Functions
+
+Mock functions allow you to test the links between code by erasing the actual implementation.
+
+#### Basic Function Mocking
 
 ```jsx
 test("calls API on button click", () => {
@@ -218,7 +380,25 @@ test("calls API on button click", () => {
 });
 ```
 
+#### Mock Implementation
+
+```jsx
+test("calculates total with tax", () => {
+  // Mock implementation of tax calculator
+  const calculateTax = jest.fn().mockImplementation((amount) => amount * 0.1);
+
+  render(<CartTotal calculateTax={calculateTax} subtotal={100} />);
+
+  expect(screen.getByText("Total: $110.00")).toBeInTheDocument();
+  expect(calculateTax).toHaveBeenCalledWith(100);
+});
+```
+
 ### Mocking Modules
+
+Mocking entire modules is useful for isolating components from external dependencies.
+
+#### Mocking Axios
 
 ```jsx
 // mocked axios
@@ -237,7 +417,30 @@ test("fetches and displays data", async () => {
 });
 ```
 
+#### Mocking Custom Modules
+
+```jsx
+// Mock a local utility module
+jest.mock("../utils/formatter", () => ({
+  formatCurrency: jest.fn((amount) => `$${amount}.00`),
+  formatDate: jest.fn((date) => "01/01/2023"),
+}));
+
+import { formatCurrency } from "../utils/formatter";
+
+test("formats price correctly", () => {
+  render(<PriceDisplay value={42} />);
+
+  expect(formatCurrency).toHaveBeenCalledWith(42);
+  expect(screen.getByText("$42.00")).toBeInTheDocument();
+});
+```
+
 ### Mocking Components
+
+Mock complex child components to focus on testing parent component behavior.
+
+#### Basic Component Mocking
 
 ```jsx
 jest.mock("./ComplexComponent", () => {
@@ -252,9 +455,36 @@ test("renders with mocked complex component", () => {
 });
 ```
 
+#### Mock with React.memo or forwardRef
+
+```jsx
+// Mocking a component that uses React.memo
+jest.mock("./MemoizedButton", () => {
+  return jest.fn((props) => (
+    <button data-testid="mocked-memo-button" onClick={props.onClick}>
+      {props.children}
+    </button>
+  ));
+});
+
+import MemoizedButton from "./MemoizedButton";
+
+test("works with memoized component", () => {
+  const handleClick = jest.fn();
+  render(<MemoizedButton onClick={handleClick}>Click</MemoizedButton>);
+
+  fireEvent.click(screen.getByTestId("mocked-memo-button"));
+  expect(handleClick).toHaveBeenCalled();
+});
+```
+
 ## Testing Asynchronous Code
 
 ### Testing Promises
+
+Testing code that uses Promises requires waiting for the Promise to resolve.
+
+#### Using findBy Queries
 
 ```jsx
 test("loads data on mount", async () => {
@@ -269,7 +499,28 @@ test("loads data on mount", async () => {
 });
 ```
 
+#### Using waitFor
+
+```jsx
+import { render, screen, waitFor } from "@testing-library/react";
+
+test("updates when async operation completes", async () => {
+  render(<AsyncCounter />);
+
+  fireEvent.click(screen.getByText("Increment After Delay"));
+
+  // Wait for the counter to update
+  await waitFor(() => {
+    expect(screen.getByText("Count: 1")).toBeInTheDocument();
+  });
+});
+```
+
 ### Testing Error States
+
+Testing error handling is crucial for robust applications.
+
+#### Error Boundaries
 
 ```jsx
 test("shows error when API fails", async () => {
@@ -284,23 +535,125 @@ test("shows error when API fails", async () => {
 });
 ```
 
+#### Form Validation Errors
+
+```jsx
+test("displays validation errors", async () => {
+  render(<SignupForm />);
+
+  // Submit with empty fields
+  fireEvent.click(screen.getByRole("button", { name: /submit/i }));
+
+  // Check for validation errors
+  expect(await screen.findByText("Email is required")).toBeInTheDocument();
+  expect(screen.getByText("Password is required")).toBeInTheDocument();
+});
+```
+
 ## Test Best Practices
 
 1. **Test behavior, not implementation** - Focus on what the component does, not how it does it
+
+   ```jsx
+   // Bad - testing implementation details
+   test("bad test", () => {
+     const { result } = renderHook(() => useState(0));
+     act(() => {
+       result.current[1](1);
+     });
+     expect(result.current[0]).toBe(1);
+   });
+
+   // Good - testing behavior
+   test("good test", () => {
+     render(<Counter />);
+     fireEvent.click(screen.getByRole("button", { name: /increment/i }));
+     expect(screen.getByText("Count: 1")).toBeInTheDocument();
+   });
+   ```
+
 2. **Use accessibility queries** - Prefer queries like `getByRole` over `getByTestId`
+
+   ```jsx
+   // Less maintainable
+   const submitButton = screen.getByTestId("submit-button");
+
+   // More maintainable and accessible
+   const submitButton = screen.getByRole("button", { name: /submit/i });
+   ```
+
 3. **Avoid testing implementation details** - Don't test state directly
+
+   ```jsx
+   // Bad - testing internal state
+   expect(component.state.count).toBe(1);
+
+   // Good - testing what the user sees
+   expect(screen.getByText("Count: 1")).toBeInTheDocument();
+   ```
+
 4. **Write maintainable tests** - Tests should not break when implementation changes
+
 5. **Test edge cases** - Empty states, error states, boundary conditions
+
+   ```jsx
+   // Test empty state
+   test("shows empty message when list is empty", () => {
+     render(<List items={[]} />);
+     expect(screen.getByText("No items found")).toBeInTheDocument();
+   });
+
+   // Test boundary conditions
+   test("correctly paginates at exactly 10 items", () => {
+     const items = Array.from({ length: 10 }, (_, i) => `Item ${i}`);
+     render(<Pagination items={items} itemsPerPage={5} />);
+     expect(screen.getByText("Page 1 of 2")).toBeInTheDocument();
+   });
+   ```
+
 6. **Keep tests simple** - One assertion per test is often clearer
+
 7. **Create test utilities** - For common test setup and patterns
+
+   ```jsx
+   // Test utility for form testing
+   function fillAndSubmitForm(fields) {
+     for (const [name, value] of Object.entries(fields)) {
+       fireEvent.change(screen.getByLabelText(name), { target: { value } });
+     }
+     fireEvent.click(screen.getByRole("button", { name: /submit/i }));
+   }
+
+   test("submits form correctly", () => {
+     render(<ContactForm onSubmit={mockSubmit} />);
+
+     fillAndSubmitForm({
+       Name: "John Doe",
+       Email: "john@example.com",
+       Message: "Hello world",
+     });
+
+     expect(mockSubmit).toHaveBeenCalledWith({
+       name: "John Doe",
+       email: "john@example.com",
+       message: "Hello world",
+     });
+   });
+   ```
 
 ## Testing Workflows
 
 ### Test-Driven Development (TDD)
 
+TDD is a development process that relies on the repetition of a short development cycle.
+
+#### TDD Process
+
 1. Write a failing test for the functionality you want to implement
 2. Implement the code to make the test pass
 3. Refactor the code while keeping tests passing
+
+#### Example
 
 ```jsx
 // 1. Write failing test
@@ -325,7 +678,9 @@ function Counter() {
 
 ### Continuous Integration
 
-Set up testing in CI/CD pipelines to run tests on every commit:
+Set up testing in CI/CD pipelines to run tests on every commit.
+
+#### GitHub Actions Workflow
 
 ```yaml
 # Example GitHub Actions workflow
@@ -344,11 +699,20 @@ jobs:
       - run: npm test
 ```
 
+#### Benefits of CI Testing
+
+- Catches errors early
+- Prevents broken code from merging
+- Maintains test discipline across the team
+- Creates a quality gate for deployments
+
 ## Specialized Testing
 
 ### Snapshot Testing
 
-Capture rendered output for regression testing:
+Capture rendered output for regression testing.
+
+#### Implementation
 
 ```jsx
 test("renders correctly", () => {
@@ -357,9 +721,18 @@ test("renders correctly", () => {
 });
 ```
 
+#### Best Practices
+
+- Use snapshots sparingly
+- Keep snapshots small and focused
+- Review snapshot diffs carefully
+- Don't use snapshots as your only form of testing
+
 ### Visual Regression Testing
 
-Test UI appearance with tools like Storybook and Chromatic:
+Test UI appearance with tools like Storybook and Chromatic.
+
+#### Storybook Setup
 
 ```jsx
 // Button.stories.js
@@ -374,9 +747,21 @@ export const Secondary = () => (
 );
 ```
 
+#### Testing with Chromatic
+
+```bash
+# Install Chromatic
+npm install --save-dev chromatic
+
+# Run visual tests
+npx chromatic --project-token=your-project-token
+```
+
 ### Performance Testing
 
-Test performance characteristics:
+Test performance characteristics of your components.
+
+#### Basic Performance Test
 
 ```jsx
 test("renders list efficiently", async () => {
@@ -390,6 +775,88 @@ test("renders list efficiently", async () => {
   const measurements = performance.getEntriesByName("render-time");
   expect(measurements[0].duration).toBeLessThan(100);
 });
+```
+
+#### React Profiler API
+
+```jsx
+// Performance testing with React Profiler
+import { Profiler } from "react";
+
+function onRenderCallback(
+  id, // the "id" prop of the Profiler tree
+  phase, // "mount" or "update"
+  actualDuration, // time spent rendering
+  baseDuration, // estimated time for the entire subtree
+  startTime, // when React began rendering
+  commitTime // when React committed the updates
+) {
+  console.log(`Component ${id} took ${actualDuration}ms to render`);
+}
+
+// In your test
+test("component renders efficiently", () => {
+  render(
+    <Profiler id="test-component" onRender={onRenderCallback}>
+      <ComponentUnderTest />
+    </Profiler>
+  );
+
+  // Trigger updates and measure performance
+});
+```
+
+## Setting Up a Testing Environment
+
+### Basic Setup with Create React App
+
+Create React App comes with Jest and Testing Library pre-configured:
+
+```bash
+npx create-react-app my-app --template typescript
+cd my-app
+npm test
+```
+
+### Manual Setup
+
+For custom projects, install and configure testing tools:
+
+```bash
+# Install core packages
+npm install --save-dev jest @testing-library/react @testing-library/jest-dom @testing-library/user-event jest-environment-jsdom
+
+# Create configuration files
+# jest.config.js
+# jest.setup.js
+```
+
+### Setup with Next.js
+
+Next.js requires additional configuration:
+
+```bash
+# Install dependencies
+npm install --save-dev jest @testing-library/react @testing-library/jest-dom
+
+# Create jest.config.js
+```
+
+```javascript
+// jest.config.js for Next.js
+const nextJest = require("next/jest");
+
+const createJestConfig = nextJest({
+  // Path to Next.js app
+  dir: "./",
+});
+
+const customJestConfig = {
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+  testEnvironment: "jest-environment-jsdom",
+};
+
+module.exports = createJestConfig(customJestConfig);
 ```
 
 By implementing a comprehensive testing strategy using these techniques, you can build more reliable and maintainable React applications with confidence that they work as expected.

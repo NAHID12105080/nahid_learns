@@ -72,15 +72,33 @@ const config: Config = {
       items: [
         {
           type: "docSidebar",
-          sidebarId: "tutorialSidebar",
+          sidebarId: "problemSolvingSidebar",
           position: "left",
-          label: "Tutorial",
+          label: "Problem Solving",
         },
         {
           type: "docSidebar",
           sidebarId: "webDevSidebar",
           position: "left",
           label: "Web Development",
+        },
+        {
+          type: "docSidebar",
+          sidebarId: "aiSidebar",
+          position: "left",
+          label: "AI & ML",
+        },
+        {
+          type: "docSidebar",
+          sidebarId: "appDevSidebar",
+          position: "left",
+          label: "App Development",
+        },
+        {
+          type: "docSidebar",
+          sidebarId: "tutorialSidebar",
+          position: "left",
+          label: "Tutorial",
         },
         { to: "/blog", label: "Blog", position: "left" },
         {
@@ -97,12 +115,24 @@ const config: Config = {
           title: "Learn",
           items: [
             {
-              label: "Tutorial",
-              to: "/docs/intro",
+              label: "Problem Solving",
+              to: "/docs/problem-solving/intro",
             },
             {
               label: "Web Development",
               to: "/docs/web-development/intro",
+            },
+            {
+              label: "AI & Machine Learning",
+              to: "/docs/ai/intro",
+            },
+            {
+              label: "App Development",
+              to: "/docs/app-development/intro",
+            },
+            {
+              label: "Tutorial",
+              to: "/docs/intro",
             },
           ],
         },
